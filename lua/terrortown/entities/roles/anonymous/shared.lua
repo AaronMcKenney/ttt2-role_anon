@@ -72,7 +72,7 @@ end
 
 if SERVER then
 	--Used to prevent informing Anonymous roles twice (once during role setup before the round has begun, and again during the point where it begins)
-	--Note: GiveRoleLoadout occurs during ROUND_ACTIVE, so we can't rely on that alone.
+	--Note: Both TTTBeginRound and the player's first GiveRoleLoadout call both occur during ROUND_ACTIVE, so we need this variable as a differentiator.
 	local ANON_SETUP_COMPLETE = nil
 
 	local function PlyIsLivingAnonymous(ply)
