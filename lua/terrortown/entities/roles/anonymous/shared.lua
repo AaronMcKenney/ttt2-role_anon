@@ -75,18 +75,6 @@ if SERVER then
 	--Note: GiveRoleLoadout occurs during ROUND_ACTIVE, so we can't rely on that alone.
 	local ANON_SETUP_COMPLETE = nil
 
-	local function GetNumAnonymous()
-		local n = 0
-
-		for _, ply in ipairs(player.GetAll()) do
-			if IsValid(ply) and ply:IsPlayer() and (ply:GetSubRole() == ROLE_ANONYMOUS or ply:GetTeam() == TEAM_ANONYMOUS) then
-				n = n + 1
-			end
-		end
-
-		return n
-	end
-
 	local function PlyIsLivingAnonymous(ply)
 		return (IsValid(ply) and ply:IsPlayer() and ply:Alive() and not IsInSpecDM(ply) and ply:GetSubRole() == ROLE_ANONYMOUS)
 	end
@@ -155,9 +143,10 @@ if SERVER then
 	local function InformAnonymousAboutTeammates(ply)
 		local num_anonymous = GetNumPlayersWithRole(ROLE_ANONYMOUS)
 		local max_num_known = GetConVar("ttt2_anon_max_num_known"):GetInt()
-		if max_num_known >= num_anonymous then
-			--max_num_known must be less than num_anonymous, else all Anonymous players know who each other are, which defeats the purpose of the role.
-			max_num_known = num_anonymous - 1
+		if max_num_known >= num_anonymous - 1 then
+			--max_num_known must be less than the # of teammates that the anonymous currently has.
+			--Otherwise, all Anonymous players at the beginning of the round would know who each other are, which defeats the purpose of the role.
+			max_num_known = num_anonymous - 2
 		end
 
 		if not IsValid(ply) or not ply:IsPlayer() or max_num_known <= 0 or (ply.anon_known_ids and ply.anon_num_ids >= max_num_known) then
@@ -262,14 +251,14 @@ if SERVER then
 
 	hook.Add("TTT2SpecialRoleSyncing", "TTT2SpecialRoleSyncingAnonymous", function(ply, tbl)
 		--The ply in the args should know about other Anonymous players whose role they are supposed to be informed about.
-		--Notice that we continue to send this information even when either player stops being Anonymous and/or joins a different team.
+		--Notice that we cease sending this information if either player stops being Anonymous.
 		if GetRoundState() == ROUND_POST or not IsValid(ply) or ply:GetSubRole() ~= ROLE_ANONYMOUS then
 			return
 		end
 
 		for ply_i in pairs(tbl) do
-			if ply.anon_known_ids and ply.anon_known_ids[ply_i:SteamID64()] then
-				tbl[ply_i] = {ply_i:GetSubRole(), ply_i:GetTeam()}
+			if ply.anon_known_ids and ply.anon_known_ids[ply_i:SteamID64()] and ply_i:GetSubRole() == ROLE_ANONYMOUS then
+				tbl[ply_i] = {ROLE_ANONYMOUS, ply_i:GetTeam()}
 			end
 		end
 	end)
@@ -280,8 +269,8 @@ if SERVER then
 			return
 		end
 
-		if ply.anon_known_ids and ply.anon_known_ids[target:SteamID64()] then
-			return target:GetSubRole(), target:GetTeam()
+		if ply.anon_known_ids and ply.anon_known_ids[target:SteamID64()] and target:GetSubRole() == ROLE_ANONYMOUS then
+			return ROLE_ANONYMOUS, target:GetTeam()
 		end
 	end)
 
