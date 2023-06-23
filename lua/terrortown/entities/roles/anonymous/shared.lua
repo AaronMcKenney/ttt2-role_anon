@@ -23,7 +23,7 @@ function ROLE:PreInitialize()
 
 	--Anonymous doesn't know who their fellow teammates are, nor do they have an open channel of communication
 	self.unknownTeam = true
-	--I think setting unknownTeam to true should be enough, but we set these other params just to be safe
+	--Setting unknownTeam to true should be enough, but we set these other params just to be safe
 	self.disabledTeamChat = true
 	self.disabledTeamChatRecv = true
 	self.disabledTeamVoice = true
