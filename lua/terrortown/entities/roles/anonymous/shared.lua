@@ -1,6 +1,5 @@
 if SERVER then
 	AddCSLuaFile()
-	util.AddNetworkString("TTT2CopycatFilesCorpseUpdate")
 end
 
 roles.InitCustomTeam(ROLE.name, {
@@ -35,9 +34,8 @@ function ROLE:PreInitialize()
 	--The player's role is not broadcasted to all other players.
 	self.isPublicRole = false
 
-	--The Copycat will always be able to inspect bodies, confirm them, and be called to them.
-	--Does not give them a Detective hat. That would only happen if isPublicRole is also set.
-	self.isPolicingRole = true
+	--Anonymous aren't detective-like.
+	self.isPolicingRole = false
 
 	--Traitor like behavior: Able to see missing in action players as well as the haste mode timer.
 	self.isOmniscientRole = true
@@ -149,7 +147,14 @@ if SERVER then
 			max_num_known = num_anonymous - 2
 		end
 
-		if not IsValid(ply) or not ply:IsPlayer() or max_num_known <= 0 or (ply.anon_known_ids and ply.anon_num_ids >= max_num_known) then
+		if not IsValid(ply) or not ply:IsPlayer() then
+			return
+		end
+		
+		--Tell the player about how many teammates they have on their team
+		LANG.Msg(ply, "num_teammates_" .. ANONYMOUS.name, {n = num_anonymous}, MSG_MSTACK_ROLE)
+		
+		if max_num_known <= 0 or (ply.anon_known_ids and ply.anon_num_ids >= max_num_known) then
 			return
 		end
 
@@ -169,6 +174,7 @@ if SERVER then
 		--end
 		--print(debug_alive_anon_name_list_str .. "]")
 
+		--Tell the player about max_num_known teammates. Their names specifically.
 		for _, anon_id in ipairs(alive_anon_id_list) do
 			if ply:SteamID64() ~= anon_id and not ply.anon_known_ids[anon_id] then
 				ply.anon_known_ids[anon_id] = true
