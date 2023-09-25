@@ -19,7 +19,7 @@ L["win_" .. TEAM_ANONYMOUS] = "Anonymous has won!"
 L["ev_win_" .. TEAM_ANONYMOUS] = "Anonymous won the round!"
 
 -- OTHER ROLE LANGUAGE STRINGS
-L["num_teammates_" .. ANONYMOUS.name] = "There are {n} players on the Anonymous team."
+L["num_teammates_" .. ANONYMOUS.name] = "There are {n} Anonymous players."
 
 --EVENT STRINGS
 -- Need to be very specifically worded, due to how the system translates them.
