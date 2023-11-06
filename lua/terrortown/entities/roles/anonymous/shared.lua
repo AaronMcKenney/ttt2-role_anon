@@ -42,8 +42,8 @@ function ROLE:PreInitialize()
 
 	-- ULX ConVars
 	self.conVarData = {
-		--This is the crux of the Anonymous role's power: 0.35 pct matches traitor pct on BMF server, and presumably closely matches others (TTT2 uses 0.4 by default).
-		--maximum set to 3 means that 3 players will have this role at the start of the game.
+		--pct is 1.0 as its value doesn't exactly matter in this scenario, since we override it to reach maximum.
+		--maximum set to 3 means that 3 players will have this role at the start of the game. This doesn't always occur, so some hacking is done later on in the code.
 		pct = 1.0,
 		maximum = 3,
 		minPlayers = 9,
