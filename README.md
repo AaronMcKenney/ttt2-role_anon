@@ -2,4 +2,4 @@
 Adds the Anonymous Role to the TTT2 mode for Garry's Mod
 
 # Steam Workshop Link
-https://steamcommunity.com/sharedfiles/filedetails/?id=#########
+https://steamcommunity.com/sharedfiles/filedetails/?id=3074075697
