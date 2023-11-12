@@ -14,7 +14,7 @@ Under the hood, when an Anonymous role is selected that role will, just as the g
  
 To further encourage social deduction one can alter the Anonymous role's shop to be a subset of the traitor shop.
  
-For an less difficult experience, consider increasing ttt2_anon_max_num_known, which can be used to tell the Anonymous player some of who their friends are.
+For a less difficult experience, consider increasing ttt2_anon_max_num_known, which can be used to tell the Anonymous player some of who their friends are.
  
 [img]https://i.imgur.com/jIBWtbM.png[/img]
  
