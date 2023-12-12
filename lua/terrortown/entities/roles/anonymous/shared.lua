@@ -283,3 +283,17 @@ if SERVER then
 	hook.Add("TTTPrepareRound", "TTTPrepareRoundAnonymousForServer", ResetAnonymousForServer)
 	hook.Add("TTTEndRound", "TTTEndRoundAnonymousForServer", ResetAnonymousForServer)
 end
+
+if CLIENT then
+	function ROLE:AddToSettingsMenu(parent)
+		local form = vgui.CreateTTT2Form(parent, "header_roles_additional")
+
+		form:MakeSlider({
+			serverConvar = "ttt2_anon_max_num_known",
+			label = "label_anon_max_num_known",
+			min = 0,
+			max = 8,
+			decimal = 0
+		})
+	end
+end

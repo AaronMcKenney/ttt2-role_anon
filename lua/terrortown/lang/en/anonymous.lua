@@ -27,3 +27,6 @@ L["title_event_anon_force"] = "An Innocent player was forced to be Anonymous"
 L["desc_event_anon_force"] = "Innocent player {name} was forced to be Anonymous."
 L["title_event_anon_inform"] = "An Anonymous player made a friend :)"
 L["desc_event_anon_inform"] = "Anonymous player {name1} knew that {name2} was also Anonymous."
+
+--CONVAR STRINGS
+L["label_anon_max_num_known"] = "Max # of known anon players"
